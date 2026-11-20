@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start-By Planner</title>
+    <script type="module" crossorigin src="./assets/index-B8km8PmJ.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BFH3HKRs.css">
+  </head>
+  <body>
+    <div id="toast-stack" class="toast-stack" role="status" aria-live="polite"></div>
+    <div class="wrap">
+      <header class="top">
+        <p class="brand">START-BY PLANNER</p>
+        <h1>What to <em>start</em> today</h1>
+        <p class="today" id="today-line"></p>
+        <p class="worked-today" id="worked-today" aria-live="off"></p>
+        <button id="settings-btn" class="settings-btn" type="button" aria-expanded="false" aria-controls="settings-form">
+          ⚙ Settings
+        </button>
+        <form id="settings-form" class="settings" novalidate hidden>
+          <h2 class="settings-heading">Settings</h2>
+          <div class="setting">
+            <div class="setting-row">
+              <label for="pace-input">Pace</label>
+              <input id="pace-input" type="number" min="0.5" max="12" step="0.5" />
+              <span>hours a day on one assignment</span>
+            </div>
+            <p class="setting-help">
+              How long you usually work on one assignment per day. A slower pace gives you earlier start-by dates.
+            </p>
+          </div>
+          <div class="setting">
+            <div class="setting-row">
+              <label for="goal-input">Focus goal</label>
+              <input id="goal-input" type="number" min="1" max="180" step="1" />
+              <span>minutes</span>
+            </div>
+            <p class="setting-help">
+              Pressing Start timer on an assignment starts a timer that keeps counting in the background while you work.
+              When it reaches this many minutes, the app chimes so you know you did a solid stretch.
+            </p>
+          </div>
+          <div class="setting">
+            <div class="setting-row">
+              <input id="lenient-input" class="setting-checkbox" type="checkbox" />
+              <label for="lenient-input">Go easy on late starts</label>
+            </div>
+            <p class="setting-help">
+              On: when an assignment's start-by date has already passed, its card just says "Start today", with the
+              original date one click away. Off: the card says how many days behind you are, in red.
+            </p>
+          </div>
+          <div class="setting" id="courses-setting">
+            <h3 class="setting-title">My courses</h3>
+            <p class="setting-help">
+              The courses you have homework for. They show up in the Course menu when you add an assignment.
+            </p>
+            <ul id="course-list" class="course-list"></ul>
+            <div class="setting-row">
+              <label for="new-course-input" class="visually-hidden">New course name</label>
+              <input id="new-course-input" class="course-name-input" type="text" maxlength="40" placeholder="e.g. CS 124" />
+              <button id="add-course-btn" class="course-btn" type="button">Add course</button>
+            </div>
+            <p class="settings-status" id="course-status" role="status"></p>
+          </div>
+          <p class="settings-status" id="settings-status" role="status"></p>
+          <button id="settings-done-btn" class="settings-done" type="button">Done</button>
+        </form>
+      </header>
+
+      <div class="board">
+        <main>
+          <div id="still-working-bar" class="undo-bar goal-bar" role="alert" hidden>
+            <span id="still-working-text"></span>
+            <span class="bar-buttons">
+              <button id="still-working-btn" type="button">Yes, keep going</button>
+              <button id="forgot-btn" type="button" class="secondary">I forgot, fix it</button>
+            </span>
+          </div>
+
+          <div id="goal-bar" class="undo-bar goal-bar" role="alert" hidden>
+            <span id="goal-text"></span>
+            <span class="bar-buttons">
+              <button id="keep-going-btn" type="button">Keep going +10 min</button>
+              <button id="goal-pause-btn" type="button" class="secondary">Pause</button>
+            </span>
+          </div>
+
+          <div id="saved-bar" class="undo-bar saved-bar" role="status" hidden>
+            <span id="saved-text"></span>
+          </div>
+
+          <section aria-labelledby="start-today-heading">
+            <h2 id="start-today-heading">Start today</h2>
+            <p class="section-hint">
+              At about <span id="pace-hint">1 hour</span> a day, these need to be underway now to finish a day early.
+              Your pace can be changed in
+              <button id="pace-settings-link" class="inline-link" type="button">Settings</button>.
+            </p>
+            <div id="start-today-list" class="list"></div>
+          </section>
+
+          <section aria-labelledby="upcoming-heading">
+            <h2 id="upcoming-heading">Coming up</h2>
+            <p class="section-hint">Not yet. Each one moves up on its start-by date.</p>
+            <div id="upcoming-list" class="list"></div>
+          </section>
+
+          <details id="completed-section">
+            <summary>Completed (<span id="completed-count">0</span>)</summary>
+            <div id="completed-list" class="list"></div>
+          </details>
+        </main>
+
+        <aside class="panel" id="add-panel">
+          <div class="panel-header">
+            <h2>Add an assignment</h2>
+            <button
+              id="add-collapse-btn"
+              class="collapse-btn"
+              type="button"
+              aria-expanded="true"
+              aria-controls="add-body"
+              aria-label="Hide the add form"
+              title="Hide the add form"
+            >
+              <span class="chevron" aria-hidden="true">▾</span>
+            </button>
+          </div>
+          <div class="add-body" id="add-body">
+            <form id="add-form" novalidate>
+              <label for="title-input">Title</label>
+              <input id="title-input" type="text" placeholder="e.g. MP 3" maxlength="120" />
+
+              <label for="course-input">Course</label>
+              <select id="course-input"></select>
+              <p class="course-prompt" id="course-prompt" hidden>
+                What courses are you taking?
+                <button id="course-prompt-btn" class="inline-link" type="button">Add your courses</button>
+                so you can pick them here.
+              </p>
+
+              <label for="due-input">Due date</label>
+              <input id="due-input" type="date" />
+
+              <fieldset class="estimate">
+                <legend>Estimated time to finish</legend>
+                <div class="row2">
+                  <div>
+                    <input id="hours-input" type="number" min="0" max="200" step="1" value="2" />
+                    <label for="hours-input">hours</label>
+                  </div>
+                  <div>
+                    <input id="minutes-input" type="number" min="0" step="5" value="0" />
+                    <label for="minutes-input">minutes</label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <button id="spent-toggle" class="inline-link spent-toggle" type="button" aria-expanded="false" aria-controls="spent-fields">
+                Already started? Add time spent
+              </button>
+
+              <fieldset class="estimate" id="spent-fields" hidden>
+                <legend>Time already spent</legend>
+                <div class="row2">
+                  <div>
+                    <input id="spent-hours-input" type="number" min="0" max="200" step="1" value="0" />
+                    <label for="spent-hours-input">hours</label>
+                  </div>
+                  <div>
+                    <input id="spent-minutes-input" type="number" min="0" step="5" value="0" />
+                    <label for="spent-minutes-input">minutes</label>
+                  </div>
+                </div>
+                <p class="field-hint">Time you put in before adding it here. It counts toward your estimate.</p>
+              </fieldset>
+
+              <label for="importance-input">Importance (how much it counts)</label>
+              <select id="importance-input">
+                <option value="1">1 — minor</option>
+                <option value="2">2</option>
+                <option value="3" selected>3 — normal</option>
+                <option value="4">4</option>
+                <option value="5">5 — a big chunk of the grade</option>
+              </select>
+
+              <p class="form-error" id="form-error" role="alert"></p>
+              <button type="submit" class="add-btn">Add assignment</button>
+              <p class="form-status" id="form-status" role="status"></p>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>
