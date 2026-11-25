@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Start-By Planner</title>
-    <script type="module" crossorigin src="./assets/index-DeFxtgD4.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-6bYh1ZMI.css">
+    <script type="module" crossorigin src="./assets/index-Cgni9Jeq.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CID5Vqzw.css">
   </head>
   <body>
     <div id="toast-stack" class="toast-stack" role="status" aria-live="polite"></div>
@@ -184,14 +184,7 @@
                 <p class="field-hint">Time you put in before adding it here. It counts toward your estimate.</p>
               </fieldset>
 
-              <label for="importance-input">Importance (how much it counts)</label>
-              <select id="importance-input">
-                <option value="1">1 — minor</option>
-                <option value="2">2</option>
-                <option value="3" selected>3 — normal</option>
-                <option value="4">4</option>
-                <option value="5">5 — a big chunk of the grade</option>
-              </select>
+              <div id="importance-picker-slot"></div>
 
               <p class="form-error" id="form-error" role="alert"></p>
               <button type="submit" class="add-btn">Add assignment</button>
