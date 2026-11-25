@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Start-By Planner</title>
-    <script type="module" crossorigin src="./assets/index-Cgni9Jeq.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CID5Vqzw.css">
+    <script type="module" crossorigin src="./assets/index-CVsx4qJA.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DDzgYGqQ.css">
   </head>
   <body>
     <div id="toast-stack" class="toast-stack" role="status" aria-live="polite"></div>
@@ -16,56 +16,62 @@
         <p class="today" id="today-line"></p>
         <p class="worked-today" id="worked-today" aria-live="off"></p>
         <button id="settings-btn" class="settings-btn" type="button" aria-expanded="false" aria-controls="settings-form">
-          ⚙ Settings
+          <svg class="gear" id="settings-gear" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5.6" />
+            <g class="gear-teeth"><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(0 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(45 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(90 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(135 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(180 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(225 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(270 12 12)" /><line x1="12" y1="2.4" x2="12" y2="5" transform="rotate(315 12 12)" /></g>
+          </svg>
+          Settings
         </button>
-        <form id="settings-form" class="settings" novalidate hidden>
-          <h2 class="settings-heading">Settings</h2>
-          <div class="setting">
-            <div class="setting-row">
-              <label for="pace-input">Pace</label>
-              <input id="pace-input" type="number" min="0.5" max="12" step="0.5" />
-              <span>hours a day on one assignment</span>
+        <form id="settings-form" class="settings-slide" novalidate inert>
+          <div class="settings-clip">
+            <div class="settings">
+              <h2 class="settings-heading">Settings</h2>
+              <div class="setting">
+                <div class="setting-text">
+                  <label class="setting-name" for="pace-input">Pace</label>
+                  <p class="setting-help">How many hours a day you'd spend on one assignment. Fewer hours means earlier start-by dates.</p>
+                </div>
+                <div class="setting-control">
+                  <input id="pace-input" type="number" min="0.5" max="12" step="0.5" />
+                  <span>hours a day</span>
+                </div>
+              </div>
+              <div class="setting">
+                <div class="setting-text">
+                  <label class="setting-name" for="goal-input">Focus goal</label>
+                  <p class="setting-help">The timer chimes after this many minutes.</p>
+                </div>
+                <div class="setting-control">
+                  <input id="goal-input" type="number" min="1" max="180" step="1" />
+                  <span>minutes</span>
+                </div>
+              </div>
+              <div class="setting">
+                <div class="setting-text">
+                  <label class="setting-name" for="lenient-input">Go easy on late starts</label>
+                  <p class="setting-help">Late cards say "Start today" in gold, instead of how many days you're behind in red.</p>
+                </div>
+                <div class="setting-control">
+                  <input id="lenient-input" class="setting-checkbox" type="checkbox" />
+                </div>
+              </div>
+              <div class="setting setting-wide" id="courses-setting">
+                <div class="setting-text">
+                  <h3 class="setting-name">My courses</h3>
+                  <p class="setting-help">These appear in the Course menu when you add an assignment. Click one to rename it.</p>
+                </div>
+                <ul id="course-list" class="course-list"></ul>
+                <div class="course-add-row">
+                  <label for="new-course-input" class="visually-hidden">New course name</label>
+                  <input id="new-course-input" class="course-name-input" type="text" maxlength="40" placeholder="e.g. CS 124" />
+                  <button id="add-course-btn" class="course-btn" type="button">Add course</button>
+                </div>
+                <p class="settings-status" id="course-status" role="status"></p>
+              </div>
+              <p class="settings-status" id="settings-status" role="status"></p>
+              <button id="settings-done-btn" class="settings-done" type="button">Done</button>
             </div>
-            <p class="setting-help">
-              How long you usually work on one assignment per day. A slower pace gives you earlier start-by dates.
-            </p>
           </div>
-          <div class="setting">
-            <div class="setting-row">
-              <label for="goal-input">Focus goal</label>
-              <input id="goal-input" type="number" min="1" max="180" step="1" />
-              <span>minutes</span>
-            </div>
-            <p class="setting-help">
-              Pressing Start timer on an assignment starts a timer that keeps counting in the background while you work.
-              When it reaches this many minutes, the app chimes so you know you did a solid stretch.
-            </p>
-          </div>
-          <div class="setting">
-            <div class="setting-row">
-              <input id="lenient-input" class="setting-checkbox" type="checkbox" />
-              <label for="lenient-input">Go easy on late starts</label>
-            </div>
-            <p class="setting-help">
-              On: when an assignment's start-by date has already passed, its card just says "Start today", with the
-              original date one click away. Off: the card says how many days behind you are, in red.
-            </p>
-          </div>
-          <div class="setting" id="courses-setting">
-            <h3 class="setting-title">My courses</h3>
-            <p class="setting-help">
-              The courses you have homework for. They show up in the Course menu when you add an assignment.
-            </p>
-            <ul id="course-list" class="course-list"></ul>
-            <div class="setting-row">
-              <label for="new-course-input" class="visually-hidden">New course name</label>
-              <input id="new-course-input" class="course-name-input" type="text" maxlength="40" placeholder="e.g. CS 124" />
-              <button id="add-course-btn" class="course-btn" type="button">Add course</button>
-            </div>
-            <p class="settings-status" id="course-status" role="status"></p>
-          </div>
-          <p class="settings-status" id="settings-status" role="status"></p>
-          <button id="settings-done-btn" class="settings-done" type="button">Done</button>
         </form>
       </header>
 
