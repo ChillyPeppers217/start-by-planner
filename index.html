@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Start-By Planner</title>
-    <script type="module" crossorigin src="./assets/index-CVsx4qJA.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DDzgYGqQ.css">
+    <script type="module" crossorigin src="./assets/index-Bb6uDFzx.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-cZRYsoI5.css">
   </head>
   <body>
     <div id="toast-stack" class="toast-stack" role="status" aria-live="polite"></div>
@@ -159,14 +159,14 @@
 
               <fieldset class="estimate">
                 <legend>Estimated time to finish</legend>
-                <div class="row2">
-                  <div>
+                <div class="time-row">
+                  <div class="time-box">
                     <input id="hours-input" type="number" min="0" max="200" step="1" value="2" />
-                    <label for="hours-input">hours</label>
+                    <label for="hours-input"><span aria-hidden="true">h</span><span class="visually-hidden">hours</span></label>
                   </div>
-                  <div>
+                  <div class="time-box">
                     <input id="minutes-input" type="number" min="0" step="5" value="0" />
-                    <label for="minutes-input">minutes</label>
+                    <label for="minutes-input"><span aria-hidden="true">m</span><span class="visually-hidden">minutes</span></label>
                   </div>
                 </div>
               </fieldset>
@@ -177,14 +177,14 @@
 
               <fieldset class="estimate" id="spent-fields" hidden>
                 <legend>Time already spent</legend>
-                <div class="row2">
-                  <div>
+                <div class="time-row">
+                  <div class="time-box">
                     <input id="spent-hours-input" type="number" min="0" max="200" step="1" value="0" />
-                    <label for="spent-hours-input">hours</label>
+                    <label for="spent-hours-input"><span aria-hidden="true">h</span><span class="visually-hidden">hours</span></label>
                   </div>
-                  <div>
+                  <div class="time-box">
                     <input id="spent-minutes-input" type="number" min="0" step="5" value="0" />
-                    <label for="spent-minutes-input">minutes</label>
+                    <label for="spent-minutes-input"><span aria-hidden="true">m</span><span class="visually-hidden">minutes</span></label>
                   </div>
                 </div>
                 <p class="field-hint">Time you put in before adding it here. It counts toward your estimate.</p>
